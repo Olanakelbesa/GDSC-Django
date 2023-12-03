@@ -1,81 +1,88 @@
-class StudentDatabase:
-    def __init__(self):
-        self.students = {}
-        
-    def add_student(self, name, age, grade):
-        self.students[name] = {'Age': age, 'Grade': grade}
+# Student Database Program (Without Functions)
 
-    def view_student(self, name):
-        if name in self.students:
-            print(f"Student: {name}\nAge: {self.students[name]['Age']}\n Grade: {self.students[name]['Grade']}")
+# Initialize an empty dictionary to store student information
+students_database = {}
+
+# Main program loop
+while True:
+    print("\nStudent Database Menu:")
+    print("1. Add Student")
+    print("2. View Student")
+    print("3. List All Students")
+    print("4. Update Student Information")
+    print("5. Delete Student")
+    print("6. Exit")
+
+    choice = input("Enter your choice (1-6): ")
+
+    if choice == "1":
+        # Add Student
+        name = input("Enter student name: ")
+        age = int(input("Enter student age: "))
+        grade = input("Enter student grade: ")
+
+        # Create a dictionary for the student
+        student_info = {
+            "Name": name,
+            "Age": age,
+            "Grade": grade
+        }
+
+        # Add the student to the database
+        students_database[name] = student_info
+        print(f"Student {name} added to the database.")
+
+    elif choice == "2":
+        # View Student
+        name = input("Enter student name to view details: ")
+        if name in students_database:
+            student_info = students_database[name]
+            print(f"\nStudent Details for {name}:\n")
+            for key, value in student_info.items():
+                print(f"{key}: {value}")
         else:
             print(f"Student {name} not found in the database.")
 
-    def list_all_students(self):
-        print("List of all students:")
-        for name, details in self.students.items():
-            print(f"Name: {name}, Age: {details['Age']}, Grade: {details['Grade']}")
+    elif choice == "3":
+        # List All Students
+        print("\nList of All Students:\n")
+        for name, student_info in students_database.items():
+            print(f"Name: {name}, Age: {student_info['Age']}, Grade: {student_info['Grade']}")
+        print()
 
-    def update_student_info(self, name, age= None, grade=None):
-        if name in self.students:
-            if age is not None:
-                self.students[name]['Age'] = age
-            if grade is not None:
-                self.students[name]['Grade'] =grade
-            print(f"Information for {name} updateed successfully.")
+    elif choice == "4":
+        # Update Student Information
+        name = input("Enter student name to update information: ")
+        if name in students_database:
+            print(f"\nCurrent Details for {name}:\n")
+            for key, value in students_database[name].items():
+                print(f"{key}: {value}")
+
+            # Get updated information
+            new_age = int(input("\nEnter new age (press Enter to keep current): ") or students_database[name]["Age"])
+            new_grade = input("Enter new grade (press Enter to keep current): ") or students_database[name]["Grade"]
+
+            # Update the student information
+            students_database[name]["Age"] = new_age
+            students_database[name]["Grade"] = new_grade
+
+            print(f"\nInformation for {name} updated.")
         else:
             print(f"Student {name} not found in the database.")
 
-    def delete_student(self, name):
-        if name in self.students:
-            del self.students[name]
-            print(f"Student {name} deleted successfully.")
+    elif choice == "5":
+        # Delete Student
+        name = input("Enter student name to delete: ")
+        if name in students_database:
+            del students_database[name]
+            print(f"Student {name} deleted from the database.")
         else:
             print(f"Student {name} not found in the database.")
 
-def main():
-    student_db = StudentDatabase()  
+    elif choice == "6":
+        # Exit
+        print("Exiting program. Goodbye!")
+        break
 
-    while True:
-        print("\nStudent Database Menu:")
-        print("1. Add Student")
-        print("2. View Student")
-        print("3. List All Student")
-        print("4. Updeate Student Information")
-        print("5. Delete Student")
-        print("6. Exit")
-
-        choice = input("Enter your choice (1-6): ") 
-
-        if choice == '1':
-            name = input("Enter student name: ")
-            age = int(input("Enter student age: "))
-            grade = input ("Enter student grade: ")
-            student_db.add_student(name, age, grade)
-
-        elif choice == '2':
-            name = input("Enter student name to view: ")
-            student_db.view_student(name)
-
-        elif choice == '3':
-            student_db.list_all_students()
-
-        elif choice == '4':
-            name = input("Enter student name to update: ")
-            age = int(input("Enter student age (press Enter to skip): ") or -1)
-            grade = input ("Enter student grade (press Enter to skip): ")
-            student_db.update_student_info(name, age, grade)
-
-        elif choice == '5':
-            name = input("Enter student name to delete: ")
-            student_db.delete_student(name)
-
-        elif choice == '6':
-            print("Exiting program. Goodbye!")
-            break
-
-        else:
-            print("Error...Invalid choice. please enter a number between 1 and 6.")
-
-if __name__ == "__main__":
-    main()   
+    else:
+        print("Invalid choice. Please enter a number between 1 and 6.")
